@@ -23,20 +23,18 @@ Backbone.sync = Sync({
 });
 ```
 
-brainy-sync requires that your model and collection definitions include a `urlRoot`, `url`, or `url()` property. while on the client this is used to evaluate the REST endpoint, brainy-sync uses this to infer a database collection name.
-
-for consistency's sake, you might want to assign `_id` to your model's `idAttribute` to remove any ambiguity.
+brainy-sync requires that your model and collection definitions include a `urlRoot`, `url`, or `url()` property. while on the client this is used to evaluate the REST endpoint, brainy-sync uses this to infer a database collection name. additionally, you likely want to assign `_id` to your model's `idAttribute` to properly reflect MongoDB records.
 
 that all considered, the Backbone API remains unchanged:
 
 ```
-var Messages = Backbone.Model.extend({
+var Message = Backbone.Model.extend({
   urlRoot: '/messages',
   idAttribute: '_id'
 });
 
-var messages = new Messages;
-messages.save({ text: 'foo' }, {
+var message = new Message;
+message.save({ text: 'foo' }, {
   success: function() {
     console.log('saved record to /messages collection');
   }

@@ -10,7 +10,7 @@ $ npm install brainy-sync
 
 ## use 
 
-simply override Backbone's sync method with brainy-sync methods. brainy-sync accepts a config to describe the MongoDB connection, and returns a sync function. true to Backbone, you can override sync at the global level (Backbone), class level (Model or Collection), or instance level. thereon, all Backbone.Model `fetch` and `save` methods on the server will use MongoDB instead of AJAX.
+simply override Backbone's sync method with brainy-sync methods. brainy-sync accepts a config to describe the MongoDB connection, and returns a sync function. true to Backbone, you can override sync at the global level (Backbone), class level (Model or Collection), or instance level. thereon, all collection and model `fetch` or `save` methods on the server will use MongoDB instead of AJAX.
 
 ```
 var Backbone = require('backbone'),

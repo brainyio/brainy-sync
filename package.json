@@ -1,0 +1,30 @@
+{
+
+  "name": "brainy-sync",
+  "description": "server-side sync, fetch, and save API for Backbone models",
+  "keywords": ["brainy", "backbone", "sync", "mongodb"],
+  
+  "version": "0.0.1",
+  "main": "./src/index",
+
+  "dependencies": {
+    "amdefine": "0.0.4",
+    "mongodb": "1.2.11",
+    "underscore": "1.4.4"
+  },
+
+  "engines": {
+    "node": ">=0.8.12"
+  },
+
+  "author": {
+    "name": "catshirt",
+    "email": "caden@catshirt.net"
+  },
+
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/brainyio/brainy-sync"
+  }
+
+}

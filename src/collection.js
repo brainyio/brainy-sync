@@ -8,11 +8,10 @@ define(function() {
   Sync.prototype.read = function(collection, attrs, options) {
     collection.find().toArray(function(err, docs) {
       if (err) {
-        options.error(db);
+        options.error();
       } else {
         options.success(docs);
       }
-      db.close();
     });
   };
 

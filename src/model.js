@@ -10,11 +10,10 @@ define([
   Sync.prototype.create = function(collection, attrs, options) {
     collection.insert(attrs, function(err, docs) {
       if (err) {
-        options.error(db);
+        options.error();
       } else {
         options.success(docs[0]);
       }
-      db.close();
     });
   };
 
@@ -26,11 +25,10 @@ define([
       };
       collection.findOne(data, function(err, doc) {
         if (err) {
-          options.error(db);
+          options.error();
         } else {
           options.success(doc);
         }
-        db.close();
       });
     } catch (e) {
       options.error();

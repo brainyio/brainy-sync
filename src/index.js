@@ -30,12 +30,14 @@ define([
       options.success = function(resp) {
         if (success) success(model, resp, options);
         model.trigger('sync', model, resp, options);
+        db.close();
       };
 
       var error = options.error;
       options.error = function(status) {
         if (error) error(model, status, options);
         model.trigger('error', model, status, options);
+        db.close();
       };
       
       db.open(function(err, db) {

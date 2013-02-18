@@ -21,7 +21,7 @@ define([
 
     return function(method, model, options) {
       var is_collection = model.models,
-        collection_name = _.result(model, 'url')
+        name = _.result(model, 'url')
         sync = is_collection? cSync: mSync,
         attrs = options.attrs || model.toJSON(options);
 
@@ -37,7 +37,12 @@ define([
         model.trigger('error', model, status, options);
       };
       
-      sync[method](db, collection_name, attrs, options);
+      db.open(function(err, db) {
+        db.collection(name, function(err, collection) {
+          sync[method](collection, attrs, options);
+        });
+      });
+      
       model.trigger('request', model, null, options);
     };
   }

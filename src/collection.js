@@ -5,18 +5,14 @@ define(function() {
   var Sync = function() {
   };
 
-  Sync.prototype.read = function(db, name, attrs, options) {
-    db.open(function(err, db) {
-      db.collection(name, function(err, collection) {
-        collection.find().toArray(function(err, docs) {
-          if (err) {
-            options.error(db);
-          } else {
-            options.success(docs);
-          }
-          db.close();
-        });
-      });
+  Sync.prototype.read = function(collection, attrs, options) {
+    collection.find().toArray(function(err, docs) {
+      if (err) {
+        options.error(db);
+      } else {
+        options.success(docs);
+      }
+      db.close();
     });
   };
 

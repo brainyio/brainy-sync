@@ -1,10 +1,11 @@
 if (typeof define !== 'function') { var define = require('amdefine')(module); }
 
 define([
+  'mongodb',
   'underscore',
   './collection',
   './model'
-], function(_, cSync, mSync) {
+], function(mongodb, _, cSync, mSync) {
 
   var Server = mongodb.Server,
     Db = mongodb.Db;

@@ -6,7 +6,7 @@ define(function() {
   };
 
   Sync.prototype.read = function(collection, attrs, options) {
-    collection.find().toArray(function(err, docs) {
+    collection.find(options.data).toArray(function(err, docs) {
       if (err) {
         options.error();
       } else {

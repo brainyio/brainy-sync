@@ -16,37 +16,42 @@ define([
       name = config.name,
       connection = new Server(host, port);
     
-    var db = new Db(name, connection, {
+    var client = new Db(name, connection, {
       w: 1
     });
 
-    return function(method, model, options) {
-      var is_collection = model.models,
-        name = _.result(model, 'url')
+    client.open(function(err, client) { });
+    
+    return function(method, resource, options) {
+      var is_collection = resource.models,
+        name = resource.urlRoot || resource.url,
         sync = is_collection? cSync: mSync,
-        attrs = options.attrs || model.toJSON(options);
+        attrs = options.data || resource.toJSON(options);
 
       var success = options.success;
       options.success = function(resp) {
-        if (success) success(model, resp, options);
-        model.trigger('sync', model, resp, options);
-        db.close();
+        if (success) success(resource, resp, options);
+        resource.trigger('sync', resource, resp, options);
       };
 
       var error = options.error;
       options.error = function(status) {
-        if (error) error(model, status, options);
-        model.trigger('error', model, status, options);
-        db.close();
+        if (error) error(resource, status, options);
+        resource.trigger('error', resource, status, options);
       };
-      
-      db.open(function(err, db) {
-        db.collection(name, function(err, collection) {
+    
+      var params = { 
+        capped: true,
+        size: 100000
+      };
+
+      (function(name, params, attrs, options) {
+        client.createCollection(name, params, function(err, collection) {
           sync[method](collection, attrs, options);
         });
-      });
+      })(name, params, attrs, options);
       
-      model.trigger('request', model, null, options);
+      resource.trigger('request', resource, null, options);
     };
   }
 

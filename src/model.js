@@ -10,7 +10,9 @@ define([
   Sync.prototype.create = function(collection, attrs, options) {
     collection.insert(attrs, function(err, docs) {
       if (err) {
-        options.error();
+        options.error(err.err);
+      } else if (!docs[0]) {
+        options.error(404);
       } else {
         options.success(docs[0]);
       }
@@ -20,12 +22,22 @@ define([
   Sync.prototype.read = function(collection, attrs, options) {
     try {
       var _id = attrs._id;
-      var data = {
-        _id: new mongodb.ObjectID(_id)
+      attrs._id = new mongodb.ObjectID(_id);
+
+      // since models can have undefined defaults
+      // we don't want to include those in the query.
+      // use `null` to search for empty keys
+      for (var i in attrs) {
+        if (attrs[i] === undefined) {
+          delete attrs[i];
+        }
       };
-      collection.findOne(data, function(err, doc) {
+
+      collection.findOne(attrs, function(err, doc) {
         if (err) {
-          options.error();
+          options.error(err.err);
+        } else if (!doc) {
+          options.error(404);
         } else {
           options.success(doc);
         }
@@ -42,10 +54,11 @@ define([
         _id: new mongodb.ObjectID(_id)
       };
       delete attrs._id;
-      console.log(data, attrs)
       collection.update(data, { $set: attrs }, function(err, doc) {
         if (err) {
           options.error(err.err);
+        } else if (doc) {
+          options.error(404);
         } else {
           options.success(doc);
         }

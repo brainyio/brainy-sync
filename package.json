@@ -4,7 +4,7 @@
   "description": "server-side sync, fetch, and save API for Backbone models",
   "keywords": ["brainy", "backbone", "sync", "mongodb"],
   
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "./src/index",
 
   "dependencies": {

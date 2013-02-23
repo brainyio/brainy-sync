@@ -26,7 +26,7 @@ define([
       var is_collection = resource.models,
         name = resource.urlRoot || resource.url,
         sync = is_collection? cSync: mSync,
-        attrs = options.data || resource.toJSON(options);
+        attrs = _.extend(resource.toJSON(options), options.data || {});
 
       var success = options.success;
       options.success = function(resp) {

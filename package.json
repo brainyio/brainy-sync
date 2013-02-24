@@ -1,10 +1,10 @@
 {
 
   "name": "brainy-sync",
-  "description": "server-side sync, fetch, and save API for Backbone models",
+  "description": "mongodb sync adapter for Backbone resources",
   "keywords": ["brainy", "backbone", "sync", "mongodb"],
   
-  "version": "0.0.2",
+  "version": "0.0.3",
   "main": "./src/index",
 
   "dependencies": {

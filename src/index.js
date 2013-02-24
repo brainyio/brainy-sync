@@ -26,7 +26,7 @@ define([
       var is_collection = resource.models,
         name = resource.urlRoot || resource.url,
         sync = is_collection? cSync: mSync,
-        attrs = _.extend(resource.toJSON(options), options.data || {});
+        attrs = options.attr || _.extend(resource.toJSON(options), options.data || {});
 
       var success = options.success;
       options.success = function(resp) {
@@ -41,15 +41,15 @@ define([
       };
     
       var params = { 
-        capped: true,
-        size: 100000
+      //  capped: true,
+      //  size: 100000
       };
 
-      (function(name, params, attrs, options) {
-        client.createCollection(name, params, function(err, collection) {
+      (function(name, attrs, options) {
+        client.createCollection(name, function(err, collection) {
           sync[method](collection, attrs, options);
         });
-      })(name, params, attrs, options);
+      })(name, attrs, options);
       
       resource.trigger('request', resource, null, options);
     };

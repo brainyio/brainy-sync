@@ -47,26 +47,39 @@ define([
     }
   };
 
-  Sync.prototype.update = function(collection, attrs, options) {
+  Sync.prototype.patch = function(collection, attrs, options) {
     try {
       var _id = attrs._id;
       var data = {
         _id: new mongodb.ObjectID(_id)
       };
       delete attrs._id;
-      collection.update(data, { $set: attrs }, function(err, doc) {
-        if (err) {
-          options.error(err.err);
-        } else if (doc) {
-          options.error(404);
-        } else {
-          options.success(doc);
+
+      // since models can have undefined defaults
+      // we don't want to include those in the query.
+      // use `null` to set empty key
+      for (var i in attrs) {
+        if (attrs[i] === undefined) {
+          delete attrs[i];
         }
-      });
+      };
+
+      collection.findAndModify(data, [['_id','asc']], { $set: attrs }, { 'new': true },
+        function(err, doc) {
+          if (err) {
+            options.error(err.err);
+          } else if (!doc) {
+            options.error(404);
+          } else {
+            options.success(doc);
+          }
+        });
     } catch (e) {
       options.error();
     }
   };
+
+  Sync.prototype.update = Sync.prototype.patch;
 
   Sync.prototype.delete = function(collection, attrs, options) {
     try {

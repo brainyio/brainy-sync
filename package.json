@@ -4,7 +4,7 @@
   "description": "mongodb sync adapter for Backbone resources",
   "keywords": ["brainy", "backbone", "sync", "mongodb"],
   
-  "version": "0.0.3",
+  "version": "0.0.4",
   "main": "./src/index",
 
   "dependencies": {
